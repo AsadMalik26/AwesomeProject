@@ -12,6 +12,7 @@ import Delete from "./Delete";
 import { testData } from "./dummy";
 import { AntDesign } from "@expo/vector-icons";
 import students from "./students";
+import Update from "./Update";
 // const { getData } = useStudents;
 export default function CRUDApp() {
   // const { getData } = students();
@@ -65,6 +66,7 @@ export default function CRUDApp() {
       <Add />
       <Get />
       <Delete />
+      <Update />
     </View>
   );
 }
