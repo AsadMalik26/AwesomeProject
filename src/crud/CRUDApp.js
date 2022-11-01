@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Add from "./Add";
 import Get from "./Get";
 import Delete from "./Delete";
@@ -13,15 +13,16 @@ import { testData } from "./dummy";
 import { AntDesign } from "@expo/vector-icons";
 import useStudents from "./useStudents";
 import Update from "./Update";
-import { AddModal } from "./MyModal";
+import { AddModal, EditModal } from "./MyModal";
 // const { getData } = useStudents;
 export default function CRUDApp() {
-  const { data } = useStudents();
-  const [addModalVisible, setAddModalVisible] = useState(true);
-
+  const { data, deleteData } = useStudents();
+  const [addModalVisible, setAddModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  useEffect(()=>{console.log("Is re-rendered CRUD Page")}, [])
   return (
     <View style={styles.body}>
-      <Text>This is real data</Text>
+      <Text  style={styles.heading}>Firebase CRUD</Text>
       <View style={[styles.item, styles.heading]}>
         <Text style={[styles.fields, styles.heading]}>Registration</Text>
         <Text style={[styles.fields, styles.heading]}>Name</Text>
@@ -30,7 +31,7 @@ export default function CRUDApp() {
         </Text>
         <View style={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
           <View style={[styles.iconBody]}>
-            <Text>Edit (inactive)</Text>
+            <Text>Edit</Text>
           </View>
         </View>
       </View>
@@ -52,7 +53,7 @@ export default function CRUDApp() {
               {item.data.section}
             </Text>
             <View style={[styles.iconBody]}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>deleteData(item.id)}>
                 <AntDesign
                   style={styles.icon}
                   name="delete"
@@ -60,7 +61,18 @@ export default function CRUDApp() {
                   color="black"
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity 
+              // onPress={()=> {
+              //   <EditModal 
+              //   modalVisible={editModalVisible}
+              //    setModalVisible={setEditModalVisible} 
+              //    id={item.data.id}
+              //     name={item.data.name}
+              //     section={item.data.section}
+              //   />
+              // }}
+              
+              >
                 <AntDesign
                   style={styles.icon}
                   name="edit"
@@ -76,12 +88,13 @@ export default function CRUDApp() {
         modalVisible={addModalVisible}
         setModalVisible={setAddModalVisible}
       />
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
+     
+      <TouchableOpacity style={styles.button} onPress={()=>setAddModalVisible(!addModalVisible)}>
         <Text>Add Data</Text>
       </TouchableOpacity>
-      <Add />
+      {/* <Add />
       <Get />
-      <Delete />
+      <Delete /> */}
       <Update />
     </View>
   );

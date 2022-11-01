@@ -5,11 +5,16 @@ import {
   Text,
   TextInput,
   View,
+  TouchableOpacity
 } from "react-native";
-import React from "react";
-import { TouchableOpacity } from "react-native-web";
-
+import React, { useRef } from "react";
+import useStudents from "./useStudents";
 export const AddModal = ({ modalVisible, setModalVisible }) => {
+  let regRef = useRef();
+  let nameRef = useRef();
+  let secRef = useRef();
+  const {addData, getData} = useStudents()
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -23,9 +28,9 @@ export const AddModal = ({ modalVisible, setModalVisible }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextInput style={styles.input} placeholder="Registraion Id" />
-            <TextInput style={styles.input} placeholder="Name" />
-            <TextInput style={styles.input} placeholder="Section" />
+            <TextInput style={styles.input} ref={regRef} placeholder="Registraion Id" />
+            <TextInput style={styles.input} ref={nameRef} placeholder="Name" />
+            <TextInput style={styles.input} ref={secRef} placeholder="Section" />
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
@@ -35,20 +40,66 @@ export const AddModal = ({ modalVisible, setModalVisible }) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.button, styles.buttonOpen]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => {
+                  console.log("refs values====> ", nameRef.current.value, regRef.current.value, secRef.current.value)
+                  addData(nameRef.current.value, regRef.current.value, secRef.current.value);
+                  
+                  setModalVisible(!modalVisible)}
+                }
               >
-                <Text style={styles.textStyle}>Done</Text>
+                <Text style={styles.textStyle}>Add</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
+    </View>
+  );
+};
+export const EditModal = ({ modalVisible, setModalVisible, name, id, section }) => {
+  let regRef = useRef();
+  let nameRef = useRef();
+  let secRef = useRef();
+  const {addData, getData} = useStudents()
+
+  return (
+    <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
       >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TextInput style={styles.input} ref={regRef} value={id} placeholder="Registraion Id" />
+            <TextInput style={styles.input} ref={nameRef} value={name} placeholder="Name" />
+            <TextInput style={styles.input} ref={secRef} value={section} placeholder="Section" />
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonOpen]}
+                onPress={() => {
+                  console.log("refs values====> ", nameRef.current.value, regRef.current.value, secRef.current.value)
+                  addData(nameRef.current.value, regRef.current.value, secRef.current.value);
+                  
+                  setModalVisible(!modalVisible)}
+                }
+              >
+                <Text style={styles.textStyle}>Add</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

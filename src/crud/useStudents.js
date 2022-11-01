@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { db } from "./config";
 export default function useStudents(init = []) {
   const [data, setData] = useState(init);
@@ -28,23 +27,43 @@ export default function useStudents(init = []) {
     // toast("Adding");
     db.collection("students")
       .add({
-        name: "Ahmad 2",
-        id: "fa19-bse-028",
-        section: "bse-b",
+        name: name,
+        id: id,
+        section: section,
       })
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
         // toast(`Document written with ID:, ${docRef.id}`);
+        getData()
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
         // toast(`Error adding document: , ${error}`);
       });
   };
-
+  const deleteData = (docId) => {
+    console.log("Deleting");
+    db.collection("students")
+      .doc(docId)
+      .delete()
+      .then((res) => {
+        console.log("Document successfully deleted!", res);
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  };
+  const updateData = (collection, docId, obj={}) => {
+    db.collection("students")
+      .doc(docId)
+      .update(obj)
+      .then(() => {
+        console.log("Document updated successfully");
+      });
+  };
   const checkData = () => {
     console.log("check data========> ", data);
   };
   useEffect(getData, []);
-  return { data, addData, getData, checkData };
+  return { data, addData, getData, checkData,deleteData , updateData};
 }
