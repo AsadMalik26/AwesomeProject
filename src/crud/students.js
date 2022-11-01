@@ -1,22 +1,26 @@
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
 import { db } from "./config";
-export default function useStudents() {
-  //   const [data, setData] = useState([]);
-  useEffect(getData, []);
+export default function students(init = []) {
+  // const [data, setData] = useState(init);
 
   const getData = () => {
     console.log("Getting");
     let response = [];
+    let cycle = 0;
     db.collection("students")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data());
           let doc_obj = { id: doc.id, data: doc.data() };
+          response.push(doc_obj);
         });
+        setData((prev) => {
+          return [...prev, ...response];
+        });
+        console.log("Final", response);
       });
-    // setData([...response]);
   };
   const addData = (name, id, section = "bse-b") => {
     // Add a second document with a generated ID.
@@ -38,7 +42,9 @@ export default function useStudents() {
       });
   };
 
-  return { addData, getData };
+  const checkData = () => {
+    console.log("check data========> ", data);
+  };
+  useEffect(getData, []);
+  return { addData, getData, checkData };
 }
-
-const styles = StyleSheet.create({});

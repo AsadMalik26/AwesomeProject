@@ -34,7 +34,7 @@ const Delete = () => {
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: "red",
+        backgroundColor: "yellow",
         margin: 10,
         padding: 10,
         alignItems: "center",
@@ -42,7 +42,7 @@ const Delete = () => {
       }}
       onPress={deleteData}
     >
-      <Text>Delete console</Text>
+      <Text>Delete View console</Text>
     </TouchableOpacity>
   );
 };

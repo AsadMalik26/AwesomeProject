@@ -12,7 +12,7 @@ export default function App() {
       {/* <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" /> */}
       {/* <MRM /> */}
-      <Text>Hello world</Text>
+      {/* <Text>Hello world</Text> */}
       <CRUDApp />
     </View>
   );
@@ -21,8 +21,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    // backgroundColor: "yellow",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });
