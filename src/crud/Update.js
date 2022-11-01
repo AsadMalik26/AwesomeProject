@@ -3,19 +3,18 @@ import React, { useEffect } from "react";
 import { db } from "./config";
 import useToast from "../mrm/useToast";
 // import { TouchableOpacity } from "react-native-web";
-const Delete = () => {
+const Update = () => {
   const { toast } = useToast();
 
-  const deleteData = (docId) => {
-    console.log("Deleting");
+  const updateData = (collection, docId) => {
     db.collection("students")
-      .doc("TVt6PPW5dLMugcfS44aw")
-      .delete()
-      .then((res) => {
-        console.log("Document successfully deleted!", res);
+      .doc("FQmVFrWkbASh1EbQ60Qi")
+      .update({
+        name: "Hameed",
+        id: "fa19-bst-089",
       })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
+      .then(() => {
+        console.log("Document updated successfully");
       });
   };
   useEffect(() => {
@@ -30,13 +29,13 @@ const Delete = () => {
         alignItems: "center",
         justifyContent: "center",
       }}
-      onPress={deleteData}
+      onPress={updateData}
     >
-      <Text>Delete View console</Text>
+      <Text>Update View console</Text>
     </TouchableOpacity>
   );
 };
 
-export default Delete;
+export default Update;
 
 const styles = StyleSheet.create({});
