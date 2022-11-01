@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useEffect } from "react";
 import { db } from "./config";
 import useToast from "../mrm/useToast";
-import useStudents from "./students";
+import useStudents from "./useStudents";
 // import { TouchableOpacity } from "react-native-web";
 const Add = () => {
   const { toast } = useToast();

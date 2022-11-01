@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { db } from "./config";
-export default function students(init = []) {
-  // const [data, setData] = useState(init);
+export default function useStudents(init = []) {
+  const [data, setData] = useState(init);
 
   const getData = () => {
     console.log("Getting");
@@ -12,14 +12,14 @@ export default function students(init = []) {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data());
+          // console.log(doc.id, " => ", doc.data());
           let doc_obj = { id: doc.id, data: doc.data() };
           response.push(doc_obj);
         });
         setData((prev) => {
           return [...prev, ...response];
         });
-        console.log("Final", response);
+        console.log("Fetched Data", response);
       });
   };
   const addData = (name, id, section = "bse-b") => {
@@ -46,5 +46,5 @@ export default function students(init = []) {
     console.log("check data========> ", data);
   };
   useEffect(getData, []);
-  return { addData, getData, checkData };
+  return { data, addData, getData, checkData };
 }

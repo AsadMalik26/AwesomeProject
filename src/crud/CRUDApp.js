@@ -5,22 +5,23 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Add from "./Add";
 import Get from "./Get";
 import Delete from "./Delete";
 import { testData } from "./dummy";
 import { AntDesign } from "@expo/vector-icons";
-import students from "./students";
+import useStudents from "./useStudents";
 import Update from "./Update";
+import { AddModal } from "./MyModal";
 // const { getData } = useStudents;
 export default function CRUDApp() {
-  // const { getData } = students();
-  console.log(students);
+  const { data } = useStudents();
+  const [addModalVisible, setAddModalVisible] = useState(true);
 
   return (
     <View style={styles.body}>
-      <Text>This is dummy data</Text>
+      <Text>This is real data</Text>
       <View style={[styles.item, styles.heading]}>
         <Text style={[styles.fields, styles.heading]}>Registration</Text>
         <Text style={[styles.fields, styles.heading]}>Name</Text>
@@ -33,8 +34,16 @@ export default function CRUDApp() {
           </View>
         </View>
       </View>
+      {!data.length ? (
+        <View style={styles.item}>
+          <Text>There may be no data or internet problem</Text>
+        </View>
+      ) : (
+        <></>
+      )}
       <FlatList
-        data={testData}
+        style={{ maxHeight: "70%" }}
+        data={data}
         renderItem={({ item }) => (
           <View key={item.id} style={styles.item}>
             <Text style={styles.fields}>{item.data.id}</Text>
@@ -63,6 +72,13 @@ export default function CRUDApp() {
           </View>
         )}
       />
+      <AddModal
+        modalVisible={addModalVisible}
+        setModalVisible={setAddModalVisible}
+      />
+      <TouchableOpacity style={styles.button} onPress={() => {}}>
+        <Text>Add Data</Text>
+      </TouchableOpacity>
       <Add />
       <Get />
       <Delete />
@@ -97,5 +113,12 @@ const styles = StyleSheet.create({
   icon: {
     paddingHorizontal: 5,
     paddingVertical: 2,
+  },
+  button: {
+    backgroundColor: "lightblue",
+    alignSelf: "center",
+    margin: 15,
+    paddingHorizontal: 10,
+    borderRadius: 20,
   },
 });
