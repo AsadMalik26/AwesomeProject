@@ -16,13 +16,16 @@ import Update from "./Update";
 import { AddModal, EditModal } from "./MyModal";
 // const { getData } = useStudents;
 export default function CRUDApp() {
-  const { data, deleteData } = useStudents();
+  const { data, deleteData, getDoc } = useStudents();
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  useEffect(()=>{console.log("Is re-rendered CRUD Page")}, [])
+  const [edit, setEdit] = useState({});
+  useEffect(() => {
+    console.log("Is re-rendered CRUD Page");
+  }, []);
   return (
     <View style={styles.body}>
-      <Text  style={styles.heading}>Firebase CRUD</Text>
+      <Text style={styles.heading}>Firebase CRUD</Text>
       <View style={[styles.item, styles.heading]}>
         <Text style={[styles.fields, styles.heading]}>Registration</Text>
         <Text style={[styles.fields, styles.heading]}>Name</Text>
@@ -53,7 +56,7 @@ export default function CRUDApp() {
               {item.data.section}
             </Text>
             <View style={[styles.iconBody]}>
-              <TouchableOpacity onPress={()=>deleteData(item.id)}>
+              <TouchableOpacity onPress={() => deleteData(item.id)}>
                 <AntDesign
                   style={styles.icon}
                   name="delete"
@@ -61,17 +64,22 @@ export default function CRUDApp() {
                   color="black"
                 />
               </TouchableOpacity>
-              <TouchableOpacity 
-              // onPress={()=> {
-              //   <EditModal 
-              //   modalVisible={editModalVisible}
-              //    setModalVisible={setEditModalVisible} 
-              //    id={item.data.id}
-              //     name={item.data.name}
-              //     section={item.data.section}
-              //   />
-              // }}
-              
+              <TouchableOpacity
+                onPress={() => {
+                  // getDoc();
+                  let d = {
+                    id: item.id,
+                    regId: item.data.id,
+                    name: item.data.name,
+                    section: item.data.section,
+                  };
+                  setEdit((prev) => {
+                    // console.log(prev);
+                    prev = d;
+                    return prev;
+                  });
+                  setEditModalVisible(!editModalVisible);
+                }}
               >
                 <AntDesign
                   style={styles.icon}
@@ -88,8 +96,16 @@ export default function CRUDApp() {
         modalVisible={addModalVisible}
         setModalVisible={setAddModalVisible}
       />
-     
-      <TouchableOpacity style={styles.button} onPress={()=>setAddModalVisible(!addModalVisible)}>
+      <EditModal
+        modalVisible={editModalVisible}
+        setModalVisible={setEditModalVisible}
+        data={edit}
+      />
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => setAddModalVisible(!addModalVisible)}
+      >
         <Text>Add Data</Text>
       </TouchableOpacity>
       {/* <Add />
