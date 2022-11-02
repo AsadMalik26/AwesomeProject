@@ -5,7 +5,7 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import React, { useRef } from "react";
 import useStudents from "./useStudents";
@@ -13,7 +13,7 @@ export const AddModal = ({ modalVisible, setModalVisible }) => {
   let regRef = useRef();
   let nameRef = useRef();
   let secRef = useRef();
-  const {addData, getData} = useStudents()
+  const { addData } = useStudents();
 
   return (
     <View style={styles.centeredView}>
@@ -28,9 +28,17 @@ export const AddModal = ({ modalVisible, setModalVisible }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextInput style={styles.input} ref={regRef} placeholder="Registraion Id" />
+            <TextInput
+              style={styles.input}
+              ref={regRef}
+              placeholder="Registraion Id"
+            />
             <TextInput style={styles.input} ref={nameRef} placeholder="Name" />
-            <TextInput style={styles.input} ref={secRef} placeholder="Section" />
+            <TextInput
+              style={styles.input}
+              ref={secRef}
+              placeholder="Section"
+            />
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
@@ -41,11 +49,20 @@ export const AddModal = ({ modalVisible, setModalVisible }) => {
               <TouchableOpacity
                 style={[styles.button, styles.buttonOpen]}
                 onPress={() => {
-                  console.log("refs values====> ", nameRef.current.value, regRef.current.value, secRef.current.value)
-                  addData(nameRef.current.value, regRef.current.value, secRef.current.value);
-                  
-                  setModalVisible(!modalVisible)}
-                }
+                  console.log(
+                    "refs values====> ",
+                    nameRef.current.value,
+                    regRef.current.value,
+                    secRef.current.value
+                  );
+                  addData(
+                    nameRef.current.value,
+                    regRef.current.value,
+                    secRef.current.value
+                  );
+
+                  setModalVisible(!modalVisible);
+                }}
               >
                 <Text style={styles.textStyle}>Add</Text>
               </TouchableOpacity>
@@ -56,11 +73,11 @@ export const AddModal = ({ modalVisible, setModalVisible }) => {
     </View>
   );
 };
-export const EditModal = ({ modalVisible, setModalVisible, name, id, section }) => {
+export const EditModal = ({ modalVisible, setModalVisible, data }) => {
   let regRef = useRef();
   let nameRef = useRef();
   let secRef = useRef();
-  const {addData, getData} = useStudents()
+  const { updateData } = useStudents();
 
   return (
     <View style={styles.centeredView}>
@@ -75,9 +92,24 @@ export const EditModal = ({ modalVisible, setModalVisible, name, id, section }) 
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextInput style={styles.input} ref={regRef} value={id} placeholder="Registraion Id" />
-            <TextInput style={styles.input} ref={nameRef} value={name} placeholder="Name" />
-            <TextInput style={styles.input} ref={secRef} value={section} placeholder="Section" />
+            <TextInput
+              style={styles.input}
+              ref={regRef}
+              defaultValue={data?.regId}
+              placeholder="Registraion Id"
+            />
+            <TextInput
+              style={styles.input}
+              ref={nameRef}
+              defaultValue={data?.name}
+              placeholder="Name"
+            />
+            <TextInput
+              style={styles.input}
+              ref={secRef}
+              defaultValue={data?.section}
+              placeholder="Section"
+            />
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
@@ -88,11 +120,21 @@ export const EditModal = ({ modalVisible, setModalVisible, name, id, section }) 
               <TouchableOpacity
                 style={[styles.button, styles.buttonOpen]}
                 onPress={() => {
-                  console.log("refs values====> ", nameRef.current.value, regRef.current.value, secRef.current.value)
-                  addData(nameRef.current.value, regRef.current.value, secRef.current.value);
-                  
-                  setModalVisible(!modalVisible)}
-                }
+                  console.log(
+                    "refs values====> ",
+                    nameRef.current.value,
+                    regRef.current.value,
+                    secRef.current.value
+                  );
+                  let obj = {
+                    name: nameRef.current.value,
+                    id: regRef.current.value,
+                    section: secRef.current.value,
+                  };
+                  updateData("students", data?.id, obj);
+
+                  setModalVisible(!modalVisible);
+                }}
               >
                 <Text style={styles.textStyle}>Add</Text>
               </TouchableOpacity>

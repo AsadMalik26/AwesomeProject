@@ -16,7 +16,9 @@ export default function useStudents(init = []) {
           response.push(doc_obj);
         });
         setData((prev) => {
-          return [...prev, ...response];
+          prev = response;
+          return prev;
+          // return [...prev, ...response];
         });
         console.log("Fetched Data", response);
       });
@@ -34,7 +36,8 @@ export default function useStudents(init = []) {
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
         // toast(`Document written with ID:, ${docRef.id}`);
-        getData()
+        console.log("getdata call from add data");
+        getData();
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
@@ -53,7 +56,7 @@ export default function useStudents(init = []) {
         console.error("Error removing document: ", error);
       });
   };
-  const updateData = (collection, docId, obj={}) => {
+  const updateData = (collection, docId, obj = {}) => {
     db.collection("students")
       .doc(docId)
       .update(obj)
@@ -61,9 +64,22 @@ export default function useStudents(init = []) {
         console.log("Document updated successfully");
       });
   };
+
+  const getDoc = () => {
+    console.log("getting doc");
+    db.collection("students")
+      .doc("jXIik2aXAi6ZGEo7KJ7R")
+      .get()
+      .then((querySnapshot) => {
+        // querySnapshot.forEach((doc) => {
+        //   console.log(doc.id, " => ", doc.data());
+        // });
+        console.log(querySnapshot.id, " ===> ", querySnapshot.data());
+      });
+  };
   const checkData = () => {
     console.log("check data========> ", data);
   };
   useEffect(getData, []);
-  return { data, addData, getData, checkData,deleteData , updateData};
+  return { data, addData, getData, checkData, deleteData, updateData, getDoc };
 }
