@@ -6,15 +6,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import Add from "./Add";
-import Get from "./Get";
-import Delete from "./Delete";
 import { testData } from "./dummy";
 import { AntDesign } from "@expo/vector-icons";
 import useStudents from "./useStudents";
-import Update from "./Update";
 import { AddModal, EditModal } from "./MyModal";
-// const { getData } = useStudents;
 export default function CRUDApp() {
   const { data, deleteData, getDoc } = useStudents();
   const [addModalVisible, setAddModalVisible] = useState(false);
@@ -22,7 +17,7 @@ export default function CRUDApp() {
   const [edit, setEdit] = useState({});
   useEffect(() => {
     console.log("Is re-rendered CRUD Page");
-  }, []);
+  }, [data]);
   return (
     <View style={styles.body}>
       <Text style={styles.heading}>Firebase CRUD</Text>
@@ -108,10 +103,6 @@ export default function CRUDApp() {
       >
         <Text>Add Data</Text>
       </TouchableOpacity>
-      {/* <Add />
-      <Get />
-      <Delete /> */}
-      <Update />
     </View>
   );
 }

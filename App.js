@@ -1,9 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import Add from "./src/crud/Add";
 import CRUDApp from "./src/crud/CRUDApp";
-import Delete from "./src/crud/Delete";
-import Get from "./src/crud/Get";
 // import MRM from "./src/mrm/MRM";
 
 export default function App() {

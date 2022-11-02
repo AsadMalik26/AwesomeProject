@@ -13,7 +13,7 @@ export const AddModal = ({ modalVisible, setModalVisible }) => {
   let regRef = useRef();
   let nameRef = useRef();
   let secRef = useRef();
-  const { addData, getData } = useStudents();
+  const { addData } = useStudents();
 
   return (
     <View style={styles.centeredView}>

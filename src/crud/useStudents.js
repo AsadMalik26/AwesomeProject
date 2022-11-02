@@ -16,7 +16,9 @@ export default function useStudents(init = []) {
           response.push(doc_obj);
         });
         setData((prev) => {
-          return [...prev, ...response];
+          prev = response;
+          return prev;
+          // return [...prev, ...response];
         });
         console.log("Fetched Data", response);
       });
@@ -34,6 +36,7 @@ export default function useStudents(init = []) {
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
         // toast(`Document written with ID:, ${docRef.id}`);
+        console.log("getdata call from add data");
         getData();
       })
       .catch((error) => {
